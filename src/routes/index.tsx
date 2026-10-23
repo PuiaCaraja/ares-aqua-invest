@@ -153,7 +153,7 @@ function Roi() {
   const [tier, setTier] = useState(1);
   const [qty, setQty] = useState(1);
   const [years, setYears] = useState(10);
-  const t = tiers[tier];
+  const t = tiers[tier] ?? tiers[1]!;
   const invested = t.price * qty;
   const final = invested * Math.pow(1 + t.yieldPct / 100, years);
   const profit = final - invested;
