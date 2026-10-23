@@ -190,7 +190,7 @@ function Roi() {
             ))}
           </div>
           <a href="#cotas" className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-gold py-4 font-display text-sm font-bold uppercase text-accent-foreground shadow-gold">
-            <Waves className="h-4 w-4" /> Garantir Minha Cota em Marte
+            <Waves className="h-4 w-4" /> Garantir Minha Cota
           </a>
         </div>
       </motion.div>
