@@ -1,7 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useEffect, useState, type MouseEvent } from "react";
 import { Rocket, Waves, Martini, Check, Crown, Compass, Mountain, TrendingUp, Sparkles, Play, X } from "lucide-react";
 import hero from "@/assets/hero-mars.jpg";
 import imgToboga from "@/assets/attractions/toboga.jpg";

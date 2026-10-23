@@ -1,4 +1,5 @@
-import { createServerFn, getRequest } from "@tanstack/react-start";
+import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { GATEWAY_BASE_URL, createResponsesCall } from "./ai/responses.server";
 import { tiers } from "./cotas";
@@ -39,7 +40,7 @@ export const analyzeCota = createServerFn({ method: "POST" })
     return parsed.data;
   })
   .handler(async ({ data }): Promise<CotaAnalysis> => {
-    const apiKey = process.env.LOVABLE_API_KEY;
+    const apiKey = process.env['LOVABLE_API_KEY'];
     if (!apiKey) throw new Error("O consultor de IA não está configurado neste app.");
 
     const brlFmt = (n: number) =>
