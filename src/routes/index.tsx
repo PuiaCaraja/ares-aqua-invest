@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useState, type MouseEvent } from "react";
-import { Rocket, Waves, Globe2, Martini, Check, Crown, Compass, Mountain, TrendingUp, Sparkles } from "lucide-react";
+import { Rocket, Waves, Martini, Check, Crown, Compass, Mountain, TrendingUp, Sparkles } from "lucide-react";
 import hero from "@/assets/hero-mars.jpg";
 
 export const Route = createFileRoute("/")({
@@ -23,16 +23,16 @@ const fadeUp = {
   show: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.8, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] as const } }),
 };
 
-const features = [
-  { icon: Rocket, title: "Tobogãs de Gravidade Reduzida", text: "Quedas de 300 m a 0,38 g. Você flutua, desliza e voa — por mais tempo do que a física da Terra permite." },
-  { icon: Globe2, title: "Piscina sob Domo Bioesférico", text: "Águas termais cristalinas sob 2 km² de vidro inteligente, com vista para Olympus Mons e as duas luas." },
-  { icon: Martini, title: "Bar Orbitário", text: "Coquetéis moleculares servidos em anel giratório a 40 m de altura, com o pôr do sol azul marciano." },
+const attractions = [
+  { icon: Rocket, title: "Tobogã Olympus", text: "300 metros de descida pela encosta do maior vulcão do sistema solar, a apenas 0,38 g. Você cai devagar, voa alto e aterrissa na água mais limpa de Marte." },
+  { icon: Waves, title: "Piscina de Ondas Gravidade-38%", text: "Ondas de 4 metros que na Terra derrubariam qualquer um. Aqui você flutua entre uma e outra e dá braçadas que duram o dobro do tempo." },
+  { icon: Martini, title: "Bar Subaquático sob Domo", text: "Coquetéis servidos a 12 metros de profundidade, sob 2 km² de vidro inteligente, com peixes bioluminescentes e vista para Fobos e Deimos." },
 ];
 
 const tiers = [
-  { name: "Explorador", icon: Compass, price: 25000, yieldPct: 8, perks: ["Acesso anual de 14 dias", "Desconto de 20% em voos Terra–Marte", "Dividendos trimestrais", "Kit de boas-vindas em titânio"] },
-  { name: "Terrafomador", icon: Mountain, price: 120000, yieldPct: 12, featured: true, perks: ["Acesso anual de 45 dias", "Suíte privativa no domo", "Voo incluso 1×/ano", "Dividendos + bônus de ocupação", "Fila prioritária nos tobogãs"] },
-  { name: "Imperador", icon: Crown, price: 750000, yieldPct: 18, perks: ["Acesso ilimitado vitalício", "Villa com piscina de gravidade zero", "Nave privativa", "Assento no conselho de Ares", "Bar Orbitário exclusivo"] },
+  { name: "Explorer", icon: Compass, price: 25000, yieldPct: 8, perks: ["7 dias de férias em Marte a cada ano", "20% de desconto no voo Terra–Marte", "Rendimentos pagos a cada trimestre", "Kit de viagem em titânio"] },
+  { name: "Terraformer", icon: Mountain, price: 120000, yieldPct: 12, featured: true, perks: ["45 dias de férias a cada ano", "Suíte privativa dentro do domo", "Voo ida e volta incluso 1×/ano", "Dividendos + bônus de ocupação", "Fila prioritária no Tobogã Olympus"] },
+  { name: "Imperador", icon: Crown, price: 750000, yieldPct: 18, perks: ["Acesso vitalício e ilimitado", "Villa com piscina de gravidade zero", "Nave privativa na sua cota", "Assento no conselho de Ares", "Noite exclusiva no Bar Subaquático"] },
 ];
 
 const brl = (n: number) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
@@ -58,7 +58,7 @@ function Index() {
       <nav className="glass fixed inset-x-4 top-4 z-50 mx-auto flex max-w-6xl items-center justify-between rounded-full px-6 py-3">
         <span className="font-display text-lg font-bold tracking-widest text-gold-gradient">ARES AQUATICS</span>
         <div className="hidden gap-8 text-sm text-muted-foreground md:flex">
-          <a href="#diferenciais" className="transition-colors hover:text-neon">Diferenciais</a>
+          <a href="#atracoes" className="transition-colors hover:text-neon">Atrações</a>
           <a href="#cotas" className="transition-colors hover:text-neon">Cotas</a>
           <a href="#roi" className="transition-colors hover:text-neon">Simulador</a>
         </div>
@@ -74,28 +74,28 @@ function Index() {
           style={{ left: glowX, top: glowY }} />
         <div className="relative z-10 max-w-4xl text-center">
           <motion.p variants={fadeUp} initial="hidden" animate="show" className="glass mx-auto mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs uppercase tracking-[0.3em] text-gold">
-            <Sparkles className="h-3.5 w-3.5" /> Cratera Jezero · Inauguração 2031
+            <Sparkles className="h-3.5 w-3.5" /> Cratera Jezero · Abertura em 2031
           </motion.p>
           <motion.h1 variants={fadeUp} custom={1} initial="hidden" animate="show" className="font-display text-4xl font-black leading-tight md:text-7xl">
-            A Terra ficou <span className="text-neon-gradient">pequena</span><br />para o seu <span className="text-gold-gradient">mergulho.</span>
+            Suas férias agora têm <span className="text-neon-gradient">um planeta</span><br />de <span className="text-gold-gradient">atraso.</span>
           </motion.h1>
           <motion.p variants={fadeUp} custom={2} initial="hidden" animate="show" className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            O primeiro parque aquático de luxo do Planeta Vermelho. Apenas 2.031 cotas. Nenhuma segunda chance.
+            Em Marte você pesa 38% do que pesa na Terra: pula mais alto, nada mais longe e ninguém te apressa. São 0,38 g de pura leveza — e só 2.031 cotas à venda.
           </motion.p>
           <motion.div variants={fadeUp} custom={3} initial="hidden" animate="show" className="mt-10">
             <motion.a href="#cotas" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
               className="inline-flex items-center gap-3 rounded-full bg-gradient-gold px-8 py-4 font-display text-sm font-bold uppercase tracking-wider text-accent-foreground shadow-gold">
-              <Rocket className="h-5 w-5" /> Garantir Minha Cota em Marte
+              <Rocket className="h-5 w-5" /> Garantir Minha Cota
             </motion.a>
           </motion.div>
         </div>
       </section>
 
       {/* FEATURES */}
-      <section id="diferenciais" className="relative mx-auto max-w-6xl px-6 py-28">
-        <SectionTitle kicker="Diferenciais" title="Lazer em outra escala gravitacional" />
+      <section id="atracoes" className="relative mx-auto max-w-6xl px-6 py-28">
+        <SectionTitle kicker="Atrações" title="Um planeta inteiro de diversão" />
         <div className="grid gap-6 md:grid-cols-3">
-          {features.map((f, i) => (
+          {attractions.map((f, i) => (
             <motion.div key={f.title} variants={fadeUp} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }}
               whileHover={{ y: -8 }} className="glass group rounded-3xl p-8 transition-shadow hover:shadow-neon">
               <div className="mb-6 inline-flex rounded-2xl bg-neon/10 p-4 text-neon shadow-neon"><f.icon className="h-7 w-7" /></div>
@@ -110,7 +110,7 @@ function Index() {
       <section id="cotas" className="relative px-6 py-28">
         <div className="absolute inset-0 -z-0 bg-[radial-gradient(ellipse_at_center,var(--mars),transparent_70%)] opacity-50" />
         <div className="relative mx-auto max-w-6xl">
-          <SectionTitle kicker="Cotas de investimento" title="Escolha seu lugar na história" />
+          <SectionTitle kicker="Cotas de investimento" title="Escolha sua cota" />
           <div className="grid gap-6 md:grid-cols-3">
             {tiers.map((t, i) => (
               <motion.div key={t.name} variants={fadeUp} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }}
