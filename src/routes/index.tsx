@@ -10,6 +10,7 @@ import imgBar from "@/assets/attractions/bar.jpg";
 import tourClip from "@/assets/attractions/tour.mp4.asset.json";
 import { priorities, tiers } from "@/lib/cotas";
 import { analyzeCota, type CotaAnalysis } from "@/lib/cotas.functions";
+import { InteresseForm } from "@/components/interesse-form";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -68,7 +69,7 @@ function Index() {
           <a href="#assistente" className="transition-colors hover:text-neon">Assistente</a>
           <a href="#roi" className="transition-colors hover:text-neon">Simulador</a>
         </div>
-        <a href="#cotas" className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-neon">Investir</a>
+        <a href="#interesse" className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-neon">Investir</a>
       </nav>
 
       {/* HERO */}
@@ -89,7 +90,7 @@ function Index() {
             Em Marte você pesa 38% do que pesa na Terra: pula mais alto, nada mais longe e ninguém te apressa. São 0,38 g de pura leveza — e só 2.031 cotas à venda.
           </motion.p>
           <motion.div variants={fadeUp} custom={3} initial="hidden" animate="show" className="mt-10">
-            <motion.a href="#cotas" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+            <motion.a href="#interesse" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
               className="inline-flex items-center gap-3 rounded-full bg-gradient-gold px-8 py-4 font-display text-sm font-bold uppercase tracking-wider text-accent-foreground shadow-gold">
               <Rocket className="h-5 w-5" /> Garantir Minha Cota
             </motion.a>
@@ -160,6 +161,8 @@ function Index() {
 
       <Roi />
 
+      <InteresseForm />
+
       <footer className="border-t border-border px-6 py-10 text-center text-sm text-muted-foreground">
         <span className="font-display tracking-widest text-gold-gradient">ARES AQUATICS</span> · Cratera Jezero, Marte · Projeção fictícia, não constitui oferta real.
       </footer>
@@ -217,7 +220,7 @@ function Roi() {
                 className="flex-1 rounded-t bg-gradient-to-t from-copper to-neon opacity-80" />
             ))}
           </div>
-          <a href="#cotas" className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-gold py-4 font-display text-sm font-bold uppercase text-accent-foreground shadow-gold">
+          <a href="#interesse" className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-gold py-4 font-display text-sm font-bold uppercase text-accent-foreground shadow-gold">
             <Waves className="h-4 w-4" /> Garantir Minha Cota
           </a>
         </div>
