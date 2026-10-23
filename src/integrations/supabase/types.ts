@@ -14,7 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cotas_interesses: {
+        Row: {
+          categoria_cota: string
+          data_criacao: string
+          email: string
+          id: string
+          nome_cliente: string
+          valor_investimento: number
+        }
+        Insert: {
+          categoria_cota: string
+          data_criacao?: string
+          email: string
+          id?: string
+          nome_cliente: string
+          valor_investimento: number
+        }
+        Update: {
+          categoria_cota?: string
+          data_criacao?: string
+          email?: string
+          id?: string
+          nome_cliente?: string
+          valor_investimento?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
