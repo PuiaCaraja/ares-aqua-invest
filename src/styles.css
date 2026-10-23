@@ -121,6 +121,14 @@
 @utility shadow-gold { box-shadow: var(--shadow-gold); }
 @utility bg-gradient-gold { background: var(--gradient-gold); }
 
+@keyframes scanline {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(400%); }
+}
+@utility animate-scanline {
+  animation: scanline 2.4s linear infinite;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
