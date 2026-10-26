@@ -59,7 +59,7 @@ export function InteresseForm() {
               {tiers.map((tier) => <option key={tier.name} value={tier.name}>{tier.name}</option>)}
             </select>
           </label>
-          <label className="text-sm text-muted-foreground">Valor do investimento (R$)
+          <label className="text-sm text-muted-foreground">Valor do investimento (coins)
             <input name="valor_investimento" type="number" min="0.01" max="999999999999.99" step="0.01" required value={valor} onChange={(e) => setValor(e.target.value)} className={fieldClass} />
           </label>
         </fieldset>

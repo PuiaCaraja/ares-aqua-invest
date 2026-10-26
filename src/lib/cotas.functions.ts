@@ -44,7 +44,7 @@ export const analyzeCota = createServerFn({ method: "POST" })
     if (!apiKey) throw new Error("O consultor de IA não está configurado neste app.");
 
     const brlFmt = (n: number) =>
-      Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(n);
+      `${n.toLocaleString("pt-BR", { maximumFractionDigits: 0 })} coins`;
     const tierText = tiers
       .map((t) => `- ${t.name} (${brlFmt(t.price)}, retorno estimado ${t.yieldPct}% a.a.): ${t.perks.join("; ")}`)
       .join("\n");
