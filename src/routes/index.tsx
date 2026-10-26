@@ -40,7 +40,7 @@ const attractions = [
 const tierIcon: Record<string, typeof Compass> = { Explorer: Compass, Terraformer: Mountain, Imperador: Crown };
 
 
-const brl = (n: number) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+const brl = (n: number) => `${n.toLocaleString("pt-BR", { maximumFractionDigits: 0 })} coins`;
 
 function Index() {
   const mx = useMotionValue(0.5);
