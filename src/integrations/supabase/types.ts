@@ -41,6 +41,30 @@ export type Database = {
         }
         Relationships: []
       }
+      historico_ia: {
+        Row: {
+          cota_recomendada: string | null
+          data_interacao: string
+          id: string
+          pergunta_usuario: string
+          resposta_ia: string
+        }
+        Insert: {
+          cota_recomendada?: string | null
+          data_interacao?: string
+          id?: string
+          pergunta_usuario: string
+          resposta_ia: string
+        }
+        Update: {
+          cota_recomendada?: string | null
+          data_interacao?: string
+          id?: string
+          pergunta_usuario?: string
+          resposta_ia?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -70,18 +70,35 @@ Regras: use somente os nomes de cota fornecidos acima; cite apenas benefícios q
     );
 
     const text = await result.text;
-    const start = text.indexOf("{");
-    const end = text.lastIndexOf("}");
-    if (start === -1 || end <= start) {
-      return { summary: text.trim().slice(0, 1200), ranking: [], matches: [] };
-    }
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(text.slice(start, end + 1));
-    } catch {
-      return { summary: text.trim().slice(0, 1200), ranking: [], matches: [] };
-    }
-    const out = analysisSchema.safeParse(parsed);
-    if (!out.success) return { summary: text.trim().slice(0, 1200), ranking: [], matches: [] };
-    return out.data;
+    const analysis = parseAnalysis(text);
+    await logInteraction(userContent, analysis);
+    return analysis;
   });
+
+function parseAnalysis(text: string): CotaAnalysis {
+  const fallback = { summary: text.trim().slice(0, 1200), ranking: [], matches: [] };
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start === -1 || end <= start) return fallback;
+  try {
+    const out = analysisSchema.safeParse(JSON.parse(text.slice(start, end + 1)));
+    return out.success ? out.data : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+// Logging never blocks the user's answer.
+async function logInteraction(pergunta: string, analysis: CotaAnalysis) {
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("historico_ia").insert({
+      pergunta_usuario: pergunta,
+      resposta_ia: JSON.stringify(analysis),
+      cota_recomendada: analysis.ranking[0]?.tier ?? null,
+    });
+    if (error) console.error("historico_ia insert failed", error.message);
+  } catch (e) {
+    console.error("historico_ia insert failed", e);
+  }
+}
