@@ -17,3 +17,5 @@
 - Shared page data (tiers, priorities) lives in `src/lib/cotas.ts` and is imported by both the index route and server functions; do not duplicate it in components. Why: server prompt and UI must always show the same tier data.
 
 - AI assistant interactions are logged server-side to historico_ia inside analyzeCota (service role, no client privileges/policies); logging failures never block the answer. Why: visitors cannot read or forge the log.
+
+- /admin lives under the `_authenticated` gate and reads leads via `listarInteresses` (requireSupabaseAuth + has_role('admin') check, then service role). Admin roles live in `user_roles`; the first account created is auto-granted admin by trigger. Why: leads stay private even though the server function endpoint is publicly reachable.

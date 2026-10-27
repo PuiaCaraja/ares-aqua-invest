@@ -15,6 +15,13 @@
       "when": 1793132044891,
       "tag": "0001_create_historico_ia",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793134180160,
+      "tag": "0002_admin_roles",
+      "breakpoints": true
     }
   ]
 }
