@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { listarInteresses } from "@/lib/admin.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CriarContaForm } from "@/components/criar-conta-form";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -124,6 +125,8 @@ function AdminPage() {
             </tbody>
           </table>
         </div>
+
+        <CriarContaForm />
       </div>
     </main>
   );
