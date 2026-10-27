@@ -8,6 +8,13 @@
       "when": 1792790899186,
       "tag": "0000_create_cotas_interesses",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793132044891,
+      "tag": "0001_create_historico_ia",
+      "breakpoints": true
     }
   ]
 }

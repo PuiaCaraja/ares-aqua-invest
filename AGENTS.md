@@ -15,3 +15,5 @@
 
 - AI Gateway calls go through `src/lib/ai/responses.server.ts` (server-only, `*.server.ts`): it owns `createResponsesCall` (provider per request, run-ID fetch from `src/lib/ai/run-id.ts`, reasoning options). Server functions expose results via `src/lib/*.functions.ts` and never import the AI module from route files. Why: keeps `LOVABLE_API_KEY` and prompts off the client bundle.
 - Shared page data (tiers, priorities) lives in `src/lib/cotas.ts` and is imported by both the index route and server functions; do not duplicate it in components. Why: server prompt and UI must always show the same tier data.
+
+- AI assistant interactions are logged server-side to historico_ia inside analyzeCota (service role, no client privileges/policies); logging failures never block the answer. Why: visitors cannot read or forge the log.
