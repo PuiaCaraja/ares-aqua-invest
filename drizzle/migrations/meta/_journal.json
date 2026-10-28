@@ -29,6 +29,13 @@
       "when": 1793134502753,
       "tag": "0003_remove_first_admin_trigger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793213648973,
+      "tag": "0004_create_reservas_vip",
+      "breakpoints": true
     }
   ]
 }

@@ -65,6 +65,27 @@ export type Database = {
         }
         Relationships: []
       }
+      reservas_vip: {
+        Row: {
+          created_at: string
+          data_reserva: string
+          id: string
+          nome_cliente: string
+        }
+        Insert: {
+          created_at?: string
+          data_reserva: string
+          id?: string
+          nome_cliente: string
+        }
+        Update: {
+          created_at?: string
+          data_reserva?: string
+          id?: string
+          nome_cliente?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
