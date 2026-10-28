@@ -26,6 +26,20 @@ export const listarInteresses = createServerFn({ method: "GET" })
     return { allowed: true as const, leads: (data ?? []).map((r) => ({ ...r, valor_investimento: Number(r.valor_investimento) })) };
   });
 
+// TEMPORÁRIO (demonstração): leitura pública dos leads, sem login.
+// A tabela segue protegida no banco (sem acesso anônimo); só esta função lê.
+// Para reverter: apague esta função e volte a rota /admin para _authenticated.
+export const listarInteressesPublico = createServerFn({ method: "GET" })
+  .handler(async () => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin
+      .from("cotas_interesses")
+      .select("id, nome_cliente, email, categoria_cota, valor_investimento, data_criacao")
+      .order("data_criacao", { ascending: false });
+    if (error) throw new Error("Não foi possível carregar os leads.");
+    return (data ?? []).map((r) => ({ ...r, valor_investimento: Number(r.valor_investimento) }));
+  });
+
 const contaSchema = z.object({
   email: z.string().trim().email("E-mail inválido").max(255),
   password: z.string().min(8, "A senha precisa ter ao menos 8 caracteres").max(72),
