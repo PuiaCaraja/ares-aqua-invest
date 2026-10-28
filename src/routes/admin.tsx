@@ -1,15 +1,13 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { RefreshCw, Search, Users, Coins, Crown, LogOut } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { listarInteresses } from "@/lib/admin.functions";
+import { RefreshCw, Search, Users, Coins, Crown } from "lucide-react";
+import { listarInteressesPublico } from "@/lib/admin.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CriarContaForm } from "@/components/criar-conta-form";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
       { title: "Painel Administrativo — Ares Aquatics" },
@@ -27,8 +25,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
 const fmt = (n: number) => `${n.toLocaleString("pt-BR")} coins`;
 
 function AdminPage() {
-  const navigate = useNavigate();
-  const fetchLeads = useServerFn(listarInteresses);
+  const fetchLeads = useServerFn(listarInteressesPublico);
   const { data, isLoading, isFetching, error, refetch, dataUpdatedAt } = useQuery({
     queryKey: ["admin-leads"],
     queryFn: () => fetchLeads(),
@@ -36,7 +33,7 @@ function AdminPage() {
   });
   const [q, setQ] = useState("");
 
-  const leads = data?.leads ?? [];
+  const leads = data ?? [];
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
     return t ? leads.filter((l) => l.nome_cliente.toLowerCase().includes(t) || l.email.toLowerCase().includes(t)) : leads;
@@ -45,20 +42,6 @@ function AdminPage() {
   const total = leads.reduce((s, l) => s + l.valor_investimento, 0);
   const counts = leads.reduce<Record<string, number>>((m, l) => ({ ...m, [l.categoria_cota]: (m[l.categoria_cota] ?? 0) + 1 }), {});
   const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
-
-  async function signOut() {
-    await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
-  }
-
-  if (data && !data.allowed) {
-    return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background text-foreground">
-        <p>Sua conta não tem permissão de administrador.</p>
-        <Button variant="outline" onClick={signOut}>Sair</Button>
-      </main>
-    );
-  }
 
   const kpis = [
     { icon: Users, label: "Total de Leads Registrados", value: leads.length.toLocaleString("pt-BR") },
@@ -76,12 +59,9 @@ function AdminPage() {
               {dataUpdatedAt ? `Atualizado às ${new Date(dataUpdatedAt).toLocaleTimeString("pt-BR")} · atualiza sozinho a cada 15s` : "Carregando…"}
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button onClick={() => refetch()} disabled={isFetching}>
-              <RefreshCw className={isFetching ? "animate-spin" : ""} /> Atualizar
-            </Button>
-            <Button variant="outline" onClick={signOut}><LogOut /> Sair</Button>
-          </div>
+          <Button onClick={() => refetch()} disabled={isFetching}>
+            <RefreshCw className={isFetching ? "animate-spin" : ""} /> Atualizar
+          </Button>
         </header>
 
         <section className="grid gap-4 md:grid-cols-3">
@@ -125,8 +105,6 @@ function AdminPage() {
             </tbody>
           </table>
         </div>
-
-        <CriarContaForm />
       </div>
     </main>
   );
