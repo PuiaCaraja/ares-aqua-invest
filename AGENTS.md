@@ -19,3 +19,5 @@
 - AI assistant interactions are logged server-side to historico_ia inside analyzeCota (service role, no client privileges/policies); logging failures never block the answer. Why: visitors cannot read or forge the log.
 
 - /admin is temporarily public for demos: `src/routes/admin.tsx` reads leads via `listarInteressesPublico` (no auth middleware, service-role read only). The table itself stays locked (no anon privileges/policies). The protected versions (`listarInteresses`, `criarConta`, `_authenticated` gate, account-creation form) are kept in code for re-enabling login. Why: demo access now, easy revert to the admin-only panel later.
+
+- VIP bar reservations follow the same intake pattern as cotas_interesses: shared Zod schema (`src/lib/reserva-schema.ts`), public insert-only server function `registrarReserva`, table `reservas_vip` with no anon/authenticated privileges or policies. Why: visitors can book without signing in but cannot read or change reservations.
