@@ -18,4 +18,4 @@
 
 - AI assistant interactions are logged server-side to historico_ia inside analyzeCota (service role, no client privileges/policies); logging failures never block the answer. Why: visitors cannot read or forge the log.
 
-- /admin lives under the `_authenticated` gate; leads via `listarInteresses`, accounts via `criarConta` (both requireSupabaseAuth + has_role admin check, then service role). Public sign-up is disabled; admins create accounts and grant roles from the panel. Why: leads stay private and only the owner decides who gets access.
+- /admin is temporarily public for demos: `src/routes/admin.tsx` reads leads via `listarInteressesPublico` (no auth middleware, service-role read only). The table itself stays locked (no anon privileges/policies). The protected versions (`listarInteresses`, `criarConta`, `_authenticated` gate, account-creation form) are kept in code for re-enabling login. Why: demo access now, easy revert to the admin-only panel later.
