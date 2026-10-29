@@ -129,6 +129,53 @@
   animation: scanline 2.4s linear infinite;
 }
 
+/* Experiências imersivas do Bar Subaquático */
+@keyframes swim {
+  from { transform: translateX(-15%); }
+  to { transform: translateX(110vw); }
+}
+@keyframes swim-reverse {
+  from { transform: translateX(110vw); }
+  to { transform: translateX(-15%); }
+}
+@utility animate-swim {
+  animation: swim linear infinite;
+}
+@utility animate-swim-reverse {
+  animation: swim-reverse linear infinite;
+}
+@keyframes water-shift {
+  0%, 100% { background-position: 0% 0%, 100% 100%, 0 0; }
+  50% { background-position: 12% 8%, 88% 92%, 0 0; }
+}
+@utility animate-water {
+  animation: water-shift 9s ease-in-out infinite;
+}
+@keyframes ray-sway {
+  0%, 100% { transform: rotate(12deg) translateX(0); opacity: 0.7; }
+  50% { transform: rotate(14deg) translateX(18px); opacity: 1; }
+}
+@keyframes ray-sway-slow {
+  0%, 100% { transform: rotate(6deg) translateX(0); opacity: 0.5; }
+  50% { transform: rotate(4deg) translateX(-14px); opacity: 0.9; }
+}
+@utility animate-ray {
+  animation: ray-sway 7s ease-in-out infinite;
+}
+@utility animate-ray-slow {
+  animation: ray-sway-slow 11s ease-in-out infinite;
+}
+@keyframes panorama-drift {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+@utility animate-panorama {
+  animation: panorama-drift 26s linear infinite alternate;
+}
+@utility animate-panorama-slow {
+  animation: panorama-drift 40s linear infinite alternate;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
