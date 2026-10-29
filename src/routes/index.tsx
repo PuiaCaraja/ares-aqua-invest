@@ -12,6 +12,7 @@ import { priorities, tiers } from "@/lib/cotas";
 import { analyzeCota, type CotaAnalysis } from "@/lib/cotas.functions";
 import { InteresseForm } from "@/components/interesse-form";
 import { BarSubaquatico } from "@/components/bar-subaquatico";
+import { PiscinaOndas } from "@/components/piscina-ondas";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -66,6 +67,7 @@ function Index() {
         <span className="font-display text-lg font-bold tracking-widest text-gold-gradient">ARES AQUATICS</span>
         <div className="hidden gap-8 text-sm text-muted-foreground md:flex">
           <a href="#atracoes" className="transition-colors hover:text-neon">Atrações</a>
+          <a href="#piscina" className="transition-colors hover:text-neon">Piscina</a>
           <a href="#bar" className="transition-colors hover:text-neon">Bar</a>
           <a href="#cotas" className="transition-colors hover:text-neon">Cotas</a>
           <a href="#assistente" className="transition-colors hover:text-neon">Assistente</a>
@@ -130,6 +132,8 @@ function Index() {
           ))}
         </div>
       </section>
+
+      <PiscinaOndas />
 
       <BarSubaquatico />
 
