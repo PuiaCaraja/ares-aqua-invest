@@ -185,6 +185,35 @@ function Index() {
   );
 }
 
+/** Mídia do card de atração: imagem estática ou vídeo próprio em loop no hover. */
+function AttractionMedia({ img, video, title }: { img: string; video?: string; title: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  if (!video) {
+    return (
+      <img src={img} alt={title} width={1024} height={768} loading="lazy"
+        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
+    );
+  }
+  return (
+    <video
+      ref={ref}
+      src={video}
+      poster={img}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-label={title}
+      onMouseEnter={() => void ref.current?.play().catch(() => undefined)}
+      onMouseLeave={() => {
+        ref.current?.pause();
+        if (ref.current) ref.current.currentTime = 0;
+      }}
+      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+    />
+  );
+}
+
 function SectionTitle({ kicker, title }: { kicker: string; title: string }) {
   return (
     <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="mb-14 text-center">
