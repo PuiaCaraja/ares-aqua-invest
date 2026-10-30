@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Rocket, Waves, Martini, Check, Crown, Compass, Mountain, TrendingUp, Sparkles, Play, X } from "lucide-react";
 import hero from "@/assets/hero-mars.jpg";
 import imgToboga from "@/assets/attractions/toboga.jpg";
@@ -33,10 +33,17 @@ const fadeUp = {
   show: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.8, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] as const } }),
 };
 
-const attractions = [
+const attractions: Array<{
+  icon: typeof Rocket;
+  title: string;
+  img: string;
+  text: string;
+  /** Fonte de vídeo independente por card; ausente até o clipe ser gerado. */
+  video?: string;
+}> = [
   { icon: Rocket, title: "Tobogã Olympus", img: imgToboga, text: "300 metros de descida pela encosta do maior vulcão do sistema solar, a apenas 0,38 g. Você cai devagar, voa alto e aterrissa na água mais limpa de Marte." },
   { icon: Waves, title: "Piscina de Ondas Gravidade-38%", img: imgPiscina, text: "Ondas de 4 metros que na Terra derrubariam qualquer um. Aqui você flutua entre uma e outra e dá braçadas que duram o dobro do tempo." },
-  { icon: Martini, title: "Bar Subaquático sob Domo", img: imgBar, text: "Coquetéis servidos a 12 metros de profundidade, sob 2 km² de vidro inteligente, com peixes bioluminescentes e vista para Fobos e Deimos." },
+  { icon: Martini, title: "Bar Subaquático sob Domo", img: imgBar, video: tourClip.url, text: "Coquetéis servidos a 12 metros de profundidade, sob 2 km² de vidro inteligente, com peixes bioluminescentes e vista para Fobos e Deimos." },
 ];
 
 const tierIcon: Record<string, typeof Compass> = { Explorer: Compass, Terraformer: Mountain, Imperador: Crown };
@@ -110,13 +117,12 @@ function Index() {
             <motion.div key={f.title} variants={fadeUp} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }}
               whileHover={{ y: -8 }} className="glass group overflow-hidden rounded-3xl transition-shadow hover:shadow-neon">
               <div className="relative h-44 overflow-hidden">
-                <img src={f.img} alt={f.title} width={1024} height={768} loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+                <AttractionMedia img={f.img} video={f.video} title={f.title} />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
                 <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                   <div className="absolute inset-x-0 h-16 animate-scanline bg-gradient-to-b from-transparent via-neon/25 to-transparent" />
                 </div>
-                <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-neon/60 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-neon/60 to-transparent" />
                 <div className="absolute bottom-3 left-3 inline-flex rounded-2xl bg-neon/10 p-3 text-neon shadow-neon backdrop-blur-sm"><f.icon className="h-5 w-5" /></div>
               </div>
               <div className="p-8 pt-6">
@@ -176,6 +182,35 @@ function Index() {
       </footer>
       <TourModal open={tourOpen} onClose={() => setTourOpen(false)} />
     </main>
+  );
+}
+
+/** Mídia do card de atração: imagem estática ou vídeo próprio em loop no hover. */
+function AttractionMedia({ img, video, title }: { img: string; video?: string; title: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  if (!video) {
+    return (
+      <img src={img} alt={title} width={1024} height={768} loading="lazy"
+        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
+    );
+  }
+  return (
+    <video
+      ref={ref}
+      src={video}
+      poster={img}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-label={title}
+      onMouseEnter={() => void ref.current?.play().catch(() => undefined)}
+      onMouseLeave={() => {
+        ref.current?.pause();
+        if (ref.current) ref.current.currentTime = 0;
+      }}
+      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+    />
   );
 }
 
