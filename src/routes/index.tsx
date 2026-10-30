@@ -33,10 +33,17 @@ const fadeUp = {
   show: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.8, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] as const } }),
 };
 
-const attractions = [
+const attractions: Array<{
+  icon: typeof Rocket;
+  title: string;
+  img: string;
+  text: string;
+  /** Fonte de vídeo independente por card; ausente até o clipe ser gerado. */
+  video?: string;
+}> = [
   { icon: Rocket, title: "Tobogã Olympus", img: imgToboga, text: "300 metros de descida pela encosta do maior vulcão do sistema solar, a apenas 0,38 g. Você cai devagar, voa alto e aterrissa na água mais limpa de Marte." },
   { icon: Waves, title: "Piscina de Ondas Gravidade-38%", img: imgPiscina, text: "Ondas de 4 metros que na Terra derrubariam qualquer um. Aqui você flutua entre uma e outra e dá braçadas que duram o dobro do tempo." },
-  { icon: Martini, title: "Bar Subaquático sob Domo", img: imgBar, text: "Coquetéis servidos a 12 metros de profundidade, sob 2 km² de vidro inteligente, com peixes bioluminescentes e vista para Fobos e Deimos." },
+  { icon: Martini, title: "Bar Subaquático sob Domo", img: imgBar, video: tourClip.url, text: "Coquetéis servidos a 12 metros de profundidade, sob 2 km² de vidro inteligente, com peixes bioluminescentes e vista para Fobos e Deimos." },
 ];
 
 const tierIcon: Record<string, typeof Compass> = { Explorer: Compass, Terraformer: Mountain, Imperador: Crown };
