@@ -117,13 +117,12 @@ function Index() {
             <motion.div key={f.title} variants={fadeUp} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }}
               whileHover={{ y: -8 }} className="glass group overflow-hidden rounded-3xl transition-shadow hover:shadow-neon">
               <div className="relative h-44 overflow-hidden">
-                <img src={f.img} alt={f.title} width={1024} height={768} loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+                <AttractionMedia img={f.img} video={f.video} title={f.title} />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
                 <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                   <div className="absolute inset-x-0 h-16 animate-scanline bg-gradient-to-b from-transparent via-neon/25 to-transparent" />
                 </div>
-                <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-neon/60 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-neon/60 to-transparent" />
                 <div className="absolute bottom-3 left-3 inline-flex rounded-2xl bg-neon/10 p-3 text-neon shadow-neon backdrop-blur-sm"><f.icon className="h-5 w-5" /></div>
               </div>
               <div className="p-8 pt-6">
