@@ -186,7 +186,7 @@ function Index() {
 }
 
 /** Mídia do card de atração: imagem estática ou vídeo próprio em loop no hover. */
-function AttractionMedia({ img, video, title }: { img: string; video?: string; title: string }) {
+function AttractionMedia({ img, video, title }: { img: string; video?: string | undefined; title: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   if (!video) {
     return (
