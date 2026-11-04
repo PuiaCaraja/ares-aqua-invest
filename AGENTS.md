@@ -11,7 +11,11 @@
 
 ## Architecture rules
 
-- Interest intake uses a shared Zod schema and a public insert-only server function for cotas_interesses; the table has no anon/authenticated privileges or policies. Why: visitors can submit without signing in but cannot retrieve customer details or change records.
+- Interest intake uses a shared Zod schema and a public insert-only server function for cotas_interesses; the table has no anon/authenticated privileges or policies. Intake functions (leads, VIP reservations, AI log) attach `user_id` only from a server-verified bearer via `src/lib/optional-user.server.ts`. Why: visitors can submit without signing in but cannot retrieve customer details, change records, or forge ownership.
+
+- Client accounts: public email/password + magic-link sign-up is enabled; the client dashboard (`/_authenticated/minha-conta`) reads its own rows through `minhaConta` (requireSupabaseAuth, then service-role queries filtered by the verified user id / confirmed email). Why: tables stay locked to clients while each client sees only their data.
+
+- Post-submit success uses `SucessoAssistente` (simulated welcome chat + WhatsApp link from `src/lib/whatsapp.ts`); the support number lives only in `WHATSAPP_NUMBER`. Why: one place to change the support channel.
 
 - AI Gateway calls go through `src/lib/ai/responses.server.ts` (server-only, `*.server.ts`): it owns `createResponsesCall` (provider per request, run-ID fetch from `src/lib/ai/run-id.ts`, reasoning options). Server functions expose results via `src/lib/*.functions.ts` and never import the AI module from route files. Why: keeps `LOVABLE_API_KEY` and prompts off the client bundle.
 - Shared page data (tiers, priorities) lives in `src/lib/cotas.ts` and is imported by both the index route and server functions; do not duplicate it in components. Why: server prompt and UI must always show the same tier data.

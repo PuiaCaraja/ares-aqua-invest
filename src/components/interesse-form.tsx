@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { tiers } from "@/lib/cotas";
 import { interesseSchema } from "@/lib/interesse-schema";
 import { registrarInteresse } from "@/lib/interesses.functions";
+import { SucessoAssistente, type SucessoInfo } from "@/components/sucesso-assistente";
+import { useSession } from "@/hooks/use-session";
+import { Link } from "@tanstack/react-router";
 
 export function InteresseForm() {
   const submit = useServerFn(registrarInteresse);
@@ -15,6 +18,8 @@ export function InteresseForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [info, setInfo] = useState<SucessoInfo | null>(null);
+  const { user } = useSession();
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -30,6 +35,17 @@ export function InteresseForm() {
     try {
       await submit({ data: parsed.data });
       setSuccess(true);
+      setInfo({
+        tipo: "cota",
+        nome: parsed.data.nome_cliente,
+        detalhe: parsed.data.categoria_cota,
+        linhas: [
+          { label: "Nome", value: parsed.data.nome_cliente },
+          { label: "E-mail", value: parsed.data.email },
+          { label: "Cota", value: parsed.data.categoria_cota },
+          { label: "Investimento", value: `${parsed.data.valor_investimento.toLocaleString("pt-BR")} coins` },
+        ],
+      });
       setNome("");
       setEmail("");
     } catch {
@@ -68,8 +84,14 @@ export function InteresseForm() {
           {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
           {success && <p role="status" className="flex items-center gap-2 text-sm text-neon"><Check className="h-4 w-4" />Seu interesse foi registrado com sucesso.</p>}
         </div>
+        {!user && (
+          <p className="text-center text-sm text-muted-foreground">
+            <Link to="/auth" className="font-semibold text-neon hover:underline">Entre ou crie sua conta</Link> para acompanhar o status da sua cota.
+          </p>
+        )}
         <p className="text-center text-xs text-muted-foreground">Cadastro de interesse · Projeto fictício, sem cobrança ou reserva de cota.</p>
       </form>
+      <SucessoAssistente info={info} onClose={() => setInfo(null)} />
     </section>
   );
 }

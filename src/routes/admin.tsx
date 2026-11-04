@@ -82,11 +82,11 @@ function AdminPage() {
         {error && <p className="text-destructive">Não foi possível carregar os leads.</p>}
 
         <div className="overflow-x-auto rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
-          <table className="w-full min-w-[640px] text-left text-sm">
+          <table className="w-full min-w-[760px] text-left text-sm">
             <thead className="border-b border-border text-muted-foreground">
               <tr>
                 <th className="p-4">Cliente</th><th className="p-4">E-mail</th><th className="p-4">Cota</th>
-                <th className="p-4 text-right">Valor</th><th className="p-4">Data</th>
+                <th className="p-4 text-right">Valor</th><th className="p-4">Data</th><th className="p-4">Conta</th>
               </tr>
             </thead>
             <tbody>
@@ -97,10 +97,11 @@ function AdminPage() {
                   <td className="p-4"><span className="rounded-full border border-primary/40 px-2 py-0.5 text-xs text-primary">{l.categoria_cota}</span></td>
                   <td className="p-4 text-right tabular-nums">{fmt(l.valor_investimento)}</td>
                   <td className="p-4 text-muted-foreground">{new Date(l.data_criacao).toLocaleString("pt-BR")}</td>
+                  <td className="p-4 text-xs">{l.user_id ? <span className="text-neon">Cliente com conta</span> : <span className="text-muted-foreground">Visitante</span>}</td>
                 </tr>
               ))}
               {!isLoading && filtered.length === 0 && (
-                <tr><td colSpan={5} className="p-8 text-center text-muted-foreground">Nenhum lead encontrado.</td></tr>
+                <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">Nenhum lead encontrado.</td></tr>
               )}
             </tbody>
           </table>

@@ -21,6 +21,8 @@ export type Database = {
           email: string
           id: string
           nome_cliente: string
+          status: string
+          user_id: string | null
           valor_investimento: number
         }
         Insert: {
@@ -29,6 +31,8 @@ export type Database = {
           email: string
           id?: string
           nome_cliente: string
+          status?: string
+          user_id?: string | null
           valor_investimento: number
         }
         Update: {
@@ -37,6 +41,8 @@ export type Database = {
           email?: string
           id?: string
           nome_cliente?: string
+          status?: string
+          user_id?: string | null
           valor_investimento?: number
         }
         Relationships: []
@@ -48,6 +54,7 @@ export type Database = {
           id: string
           pergunta_usuario: string
           resposta_ia: string
+          user_id: string | null
         }
         Insert: {
           cota_recomendada?: string | null
@@ -55,6 +62,7 @@ export type Database = {
           id?: string
           pergunta_usuario: string
           resposta_ia: string
+          user_id?: string | null
         }
         Update: {
           cota_recomendada?: string | null
@@ -62,6 +70,7 @@ export type Database = {
           id?: string
           pergunta_usuario?: string
           resposta_ia?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -71,18 +80,21 @@ export type Database = {
           data_reserva: string
           id: string
           nome_cliente: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           data_reserva: string
           id?: string
           nome_cliente: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           data_reserva?: string
           id?: string
           nome_cliente?: string
+          user_id?: string | null
         }
         Relationships: []
       }

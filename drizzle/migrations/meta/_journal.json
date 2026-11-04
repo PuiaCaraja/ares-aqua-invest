@@ -36,6 +36,13 @@
       "when": 1793213648973,
       "tag": "0004_create_reservas_vip",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793810162590,
+      "tag": "0005_client_accounts_link",
+      "breakpoints": true
     }
   ]
 }

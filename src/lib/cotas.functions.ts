@@ -91,8 +91,11 @@ function parseAnalysis(text: string): CotaAnalysis {
 // Logging never blocks the user's answer.
 async function logInteraction(pergunta: string, analysis: CotaAnalysis) {
   try {
+    const { getOptionalUser } = await import("@/lib/optional-user.server");
+    const user = await getOptionalUser();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("historico_ia").insert({
+      user_id: user?.id ?? null,
       pergunta_usuario: pergunta,
       resposta_ia: JSON.stringify(analysis),
       cota_recomendada: analysis.ranking[0]?.tier ?? null,

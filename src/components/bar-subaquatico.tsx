@@ -6,6 +6,7 @@ import imgBar from "@/assets/attractions/bar.jpg";
 import splashVideo from "@/assets/attractions/splash.mp4.asset.json";
 import { reservaSchema } from "@/lib/reserva-schema";
 import { registrarReserva } from "@/lib/reservas.functions";
+import { SucessoAssistente, type SucessoInfo } from "@/components/sucesso-assistente";
 
 type Mode = "menu" | "tanques" | "lounge";
 
@@ -377,6 +378,7 @@ function ReservaForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [info, setInfo] = useState<SucessoInfo | null>(null);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -392,6 +394,17 @@ function ReservaForm() {
     try {
       await submit({ data: parsed.data });
       setSuccess(true);
+      const dataBr = parsed.data.data_reserva.split("-").reverse().join("/");
+      setInfo({
+        tipo: "reserva",
+        nome: parsed.data.nome_cliente,
+        detalhe: dataBr,
+        linhas: [
+          { label: "Nome", value: parsed.data.nome_cliente },
+          { label: "Data", value: dataBr },
+          { label: "Local", value: "Lounge VIP · Bar Subaquático" },
+        ],
+      });
       setNome("");
       setData("");
     } catch {
@@ -448,6 +461,7 @@ function ReservaForm() {
         )}
       </div>
       <p className="mt-3 text-xs text-muted-foreground">Reserva simulada · Projeto fictício, sem cobrança.</p>
+      <SucessoAssistente info={info} onClose={() => setInfo(null)} />
     </div>
   );
 }

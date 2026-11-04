@@ -13,6 +13,7 @@ import { analyzeCota, type CotaAnalysis } from "@/lib/cotas.functions";
 import { InteresseForm } from "@/components/interesse-form";
 import { BarSubaquatico } from "@/components/bar-subaquatico";
 import { PiscinaOndas } from "@/components/piscina-ondas";
+import { ContaButton } from "@/components/conta-button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -80,7 +81,10 @@ function Index() {
           <a href="#assistente" className="transition-colors hover:text-neon">Assistente</a>
           <a href="#roi" className="transition-colors hover:text-neon">Simulador</a>
         </div>
-        <a href="#interesse" className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-neon">Investir</a>
+        <div className="flex items-center gap-2">
+          <ContaButton />
+          <a href="#interesse" className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-neon">Investir</a>
+        </div>
       </nav>
 
       {/* HERO */}
