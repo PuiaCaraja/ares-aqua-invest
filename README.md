@@ -1,32 +1,25 @@
-# Ares Aquatics
+# 🌊 Ares Aqua Invest
 
-*"Crie uma landing page futurista, luxuosa e altamente atraente para vender cotas de um parque aquático em Marte chamado 'Ares Aquatics'. O design deve usar uma paleta de cores contrastante: tons de terreno marcial (vermelho escuro, cobre, terracota) mesclados com água ciano neon e dourado luxuoso. Inclua:
+Uma plataforma moderna para investimento e gestão de cotas no setor aquático, desenvolvida com tecnologias web de alto desempenho, arquitetura escalável e foco na experiência do utilizador.
 
-Hero Section impactante com título provocativo, fundo interativo e botão CTA 'Garantir Minha Cota em Marte'.
+---
 
-Seção com os diferenciais: Tobogãs de Gravidade Reduzida, Piscina sob Domo Bioesférico, Bar Orbitário.
+## 📁 Estrutura de Pastas do Projeto
 
-Tabela/Cards interativos de investimento em Cotas (Explorador, Terrafomador e Imperador) com preço e benefícios.
+A organização do código segue uma arquitetura modular e clara, separando a lógica de servidor, componentes visuais e configurações de base de dados:
 
-Uma calculadora de retorno sobre investimento (ROI) interativa. Use UI moderna com Tailwind CSS, glassmorphism, sombras neon e animações suaves de entrada (Framer Motion ou Lucide Icons)."*
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/e37ee79b-7810-452a-9e78-fbe16d48ab10).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+```text
+ares-aqua-invest/
+├── drizzle/            # Scripts e ficheiros de migração SQL (Drizzle ORM)
+├── public/             # Ficheiros estáticos (imagens, ícones, favicons)
+├── src/
+│   ├── components/     # Componentes de interface (UI) reutilizáveis
+│   ├── lib/            # Configurações de clientes (Supabase, Drizzle, utilitários)
+│   ├── routes/         # Páginas e rotas da aplicação (TanStack Router)
+│   └── styles/         # Ficheiros de estilo global e Tailwind CSS
+├── .env.example        # Modelo de variáveis de ambiente (sem dados sensíveis)
+├── .gitignore          # Ficheiros ignorados pelo Git (ex: .env, node_modules)
+├── drizzle.config.ts   # Configuração principal do Drizzle ORM
+├── package.json        # Dependências e scripts do projeto
+├── README.md           # Documentação principal do repositório
+└── vite.config.ts      # Configuração do Vite
