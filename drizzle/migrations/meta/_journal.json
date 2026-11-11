@@ -43,6 +43,20 @@
       "when": 1793810162590,
       "tag": "0005_client_accounts_link",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794355200000,
+      "tag": "0006_abuse_protection",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794355200001,
+      "tag": "0007_single_administrator",
+      "breakpoints": true
     }
   ]
 }
