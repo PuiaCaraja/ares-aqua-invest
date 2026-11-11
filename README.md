@@ -92,10 +92,10 @@ cd ares-aqua-invest
 npm ci
 ```
 
-Copie `.env.example` para `.env` e preencha as variáveis. Em PowerShell:
+O `.env` versionado foi incluído pelo Lovable e contém somente configurações públicas do backend. Preserve esse arquivo. Copie `.env.example` para `.env.local` e preencha as variáveis privadas e os valores públicos correspondentes ao mesmo projeto. O arquivo `.env.local` é ignorado pelo Git. Em PowerShell:
 
 ```powershell
-Copy-Item .env.example .env
+Copy-Item .env.example .env.local
 ```
 
 Gere um segredo e coloque o resultado em `RATE_LIMIT_HASH_SECRET`:
@@ -107,7 +107,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 Aplique as migrações antes de testar os formulários e a IA. Configure no Supabase Auth a URL do site e as URLs de redirecionamento para `/auth`, incluindo a origem local exibida pelo Vite. Habilite e-mail/senha e link mágico; o envio de confirmação depende da configuração de e-mail do Supabase.
 
 ```bash
-node --env-file=.env node_modules/vite/bin/vite.js dev
+node --env-file=.env --env-file=.env.local node_modules/vite/bin/vite.js dev
 ```
 
 Esse comando carrega também as variáveis privadas no processo Node. Se elas já estiverem exportadas no ambiente, use `npm run dev`. A leitura de `VITE_*` pelo Vite não substitui a configuração das variáveis privadas do servidor.
@@ -116,7 +116,7 @@ Abra a URL informada pelo terminal. A configuração compartilhada do Lovable po
 
 ## Variáveis de ambiente
 
-O arquivo [.env.example](.env.example) contém apenas exemplos. Use credenciais do mesmo projeto Supabase no navegador e no servidor.
+O arquivo [.env.example](.env.example) contém apenas exemplos para `.env.local`. Use credenciais do mesmo projeto Supabase no navegador e no servidor. Nunca adicione segredos ao `.env` versionado; esse arquivo deve continuar limitado à configuração pública.
 
 | Variável                        | Onde é usada     | Finalidade                                                                                                                  |
 | ------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
@@ -243,6 +243,7 @@ ares-aqua-invest/
 │   ├── start.ts                    # CSRF e envio do token nas RPCs
 │   └── styles.css                  # Estilos globais
 ├── supabase/config.toml
+├── .env                            # Configuração pública do backend, mantida pelo Lovable
 ├── .env.example
 ├── AGENTS.md                       # Regras de arquitetura e Lovable
 ├── drizzle.config.ts
