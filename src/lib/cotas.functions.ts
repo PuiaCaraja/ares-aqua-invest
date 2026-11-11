@@ -40,13 +40,18 @@ export const analyzeCota = createServerFn({ method: "POST" })
     return parsed.data;
   })
   .handler(async ({ data }): Promise<CotaAnalysis> => {
-    const apiKey = process.env['LOVABLE_API_KEY'];
+    const apiKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey) throw new Error("O consultor de IA não está configurado neste app.");
+    const { enforceAbuseProtection } = await import("@/lib/rate-limit.server");
+    await enforceAbuseProtection("ai");
 
     const brlFmt = (n: number) =>
       `${n.toLocaleString("pt-BR", { maximumFractionDigits: 0 })} coins`;
     const tierText = tiers
-      .map((t) => `- ${t.name} (${brlFmt(t.price)}, retorno estimado ${t.yieldPct}% a.a.): ${t.perks.join("; ")}`)
+      .map(
+        (t) =>
+          `- ${t.name} (${brlFmt(t.price)}, retorno estimado ${t.yieldPct}% a.a.): ${t.perks.join("; ")}`,
+      )
       .join("\n");
 
     const system = `Você é o consultor de cotas do Ares Aquatics, um parque aquático fictício em Marte (projeto de demonstração). Ajude potenciais compradores a escolher entre as cotas abaixo.

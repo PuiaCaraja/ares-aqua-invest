@@ -22,7 +22,9 @@ export function createResponsesCall(
     model: provider.responses(config.model),
     ...(system ? { system } : {}),
     messages,
-    abortSignal: request.signal,
+    abortSignal: AbortSignal.any([request.signal, AbortSignal.timeout(30000)]),
+    maxOutputTokens: 1600,
+    maxRetries: 0,
     providerOptions: {
       openai: {
         store: false,

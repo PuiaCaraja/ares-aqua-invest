@@ -7,6 +7,8 @@ import splashVideo from "@/assets/attractions/splash.mp4.asset.json";
 import { reservaSchema } from "@/lib/reserva-schema";
 import { registrarReserva } from "@/lib/reservas.functions";
 import { SucessoAssistente, type SucessoInfo } from "@/components/sucesso-assistente";
+import { FormHoneypot } from "@/components/form-honeypot";
+import { submissionError } from "@/lib/abuse";
 
 type Mode = "menu" | "tanques" | "lounge";
 
@@ -384,7 +386,8 @@ function ReservaForm() {
     event.preventDefault();
     if (busy) return;
     setSuccess(false);
-    const parsed = reservaSchema.safeParse({ nome_cliente: nome, data_reserva: data });
+    const website = new FormData(event.currentTarget).get("website") ?? "";
+    const parsed = reservaSchema.safeParse({ nome_cliente: nome, data_reserva: data, website });
     if (!parsed.success) {
       setError(parsed.error.issues[0]?.message ?? "Confira os campos.");
       return;
@@ -407,8 +410,8 @@ function ReservaForm() {
       });
       setNome("");
       setData("");
-    } catch {
-      setError("Não foi possível salvar sua reserva. Seus dados continuam aqui para tentar novamente.");
+    } catch (error) {
+      setError(submissionError(error, "Não foi possível salvar sua reserva. Seus dados continuam aqui para tentar novamente."));
     } finally {
       setBusy(false);
     }
@@ -430,6 +433,7 @@ function ReservaForm() {
         </div>
       </div>
       <form onSubmit={onSubmit} className="mt-6 grid gap-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
+        <FormHoneypot />
         <fieldset disabled={busy} className="contents">
           <label className="text-sm text-muted-foreground">
             Nome do cliente

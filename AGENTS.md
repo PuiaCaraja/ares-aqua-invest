@@ -11,6 +11,8 @@
 
 ## Architecture rules
 
+- Abuse protection: `rate-limit.server.ts` must run before AI provider calls and before lead/VIP inserts. Counters are atomic PostgreSQL RPCs from migration `0006_abuse_protection.sql`, callable only by service_role. Missing configuration or RPC errors fail closed. Trust IP headers only behind a proxy that overwrites them; keep limits and HMAC secret server-side. Honeypot metadata must never be inserted into business tables.
+
 - Interest intake uses a shared Zod schema and a public insert-only server function for cotas_interesses; the table has no anon/authenticated privileges or policies. Intake functions (leads, VIP reservations, AI log) attach `user_id` only from a server-verified bearer via `src/lib/optional-user.server.ts`. Why: visitors can submit without signing in but cannot retrieve customer details, change records, or forge ownership.
 
 - Client accounts: public email/password + magic-link sign-up is enabled; the client dashboard (`/_authenticated/minha-conta`) reads its own rows through `minhaConta` (requireSupabaseAuth, then service-role queries filtered by the verified user id / confirmed email). Why: tables stay locked to clients while each client sees only their data.
@@ -22,6 +24,6 @@
 
 - AI assistant interactions are logged server-side to historico_ia inside analyzeCota (service role, no client privileges/policies); logging failures never block the answer. Why: visitors cannot read or forge the log.
 
-- /admin is temporarily public for demos: `src/routes/admin.tsx` reads leads via `listarInteressesPublico` (no auth middleware, service-role read only). The table itself stays locked (no anon privileges/policies). The protected versions (`listarInteresses`, `criarConta`, `_authenticated` gate, account-creation form) are kept in code for re-enabling login. Why: demo access now, easy revert to the admin-only panel later.
+- /admin is private. Every admin server function must use requireSupabaseAuth and requireAdministrator, backed by get_account_role with the verified caller's bearer. Migration 0007 selects one confirmed owner in app_private.administrator_settings, enforces one role per user and at most one admin, and assigns every other signup the user/client role. Never restore public lead reads, first-user promotion, client-controlled roles, or an admin checkbox in account creation. The owner signs up/signs in through /auth; it does not require an existing admin to provision its role.
 
 - VIP bar reservations follow the same intake pattern as cotas_interesses: shared Zod schema (`src/lib/reserva-schema.ts`), public insert-only server function `registrarReserva`, table `reservas_vip` with no anon/authenticated privileges or policies. Why: visitors can book without signing in but cannot read or change reservations.

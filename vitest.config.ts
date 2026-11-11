@@ -5,6 +5,9 @@ import path from "node:path";
 export default defineConfig({
   plugins: [react()],
   test: {
+    // Keep the small suite predictable on constrained Windows development machines.
+    pool: "threads",
+    maxWorkers: 1,
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/test/setup.ts"],

@@ -8,6 +8,8 @@ import { registrarInteresse } from "@/lib/interesses.functions";
 import { SucessoAssistente, type SucessoInfo } from "@/components/sucesso-assistente";
 import { useSession } from "@/hooks/use-session";
 import { Link } from "@tanstack/react-router";
+import { FormHoneypot } from "@/components/form-honeypot";
+import { submissionError } from "@/lib/abuse";
 
 export function InteresseForm() {
   const submit = useServerFn(registrarInteresse);
@@ -25,7 +27,8 @@ export function InteresseForm() {
     event.preventDefault();
     if (busy) return;
     setSuccess(false);
-    const parsed = interesseSchema.safeParse({ nome_cliente: nome, email, categoria_cota: categoria, valor_investimento: Number(valor) });
+    const website = new FormData(event.currentTarget).get("website") ?? "";
+    const parsed = interesseSchema.safeParse({ nome_cliente: nome, email, categoria_cota: categoria, valor_investimento: Number(valor), website });
     if (!parsed.success) {
       setError(parsed.error.issues[0]?.message ?? "Confira os campos.");
       return;
@@ -48,8 +51,8 @@ export function InteresseForm() {
       });
       setNome("");
       setEmail("");
-    } catch {
-      setError("Não foi possível salvar seu interesse. Seus dados continuam aqui para tentar novamente.");
+    } catch (error) {
+      setError(submissionError(error, "Não foi possível salvar seu interesse. Seus dados continuam aqui para tentar novamente."));
     } finally {
       setBusy(false);
     }
@@ -63,6 +66,7 @@ export function InteresseForm() {
         <h2 className="mt-3 font-display text-3xl font-bold md:text-5xl">Tenho interesse em uma cota</h2>
       </div>
       <form onSubmit={onSubmit} className="mx-auto max-w-2xl space-y-6">
+        <FormHoneypot />
         <fieldset disabled={busy} className="grid gap-6 md:grid-cols-2">
           <label className="text-sm text-muted-foreground">Nome completo
             <input name="nome_cliente" autoComplete="name" required maxLength={100} value={nome} onChange={(e) => setNome(e.target.value)} className={fieldClass} />
